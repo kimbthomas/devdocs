@@ -53,36 +53,11 @@ The following results provides an example of variables:
 	| ADMIN_USERNAME | admin_A456    | Yes       | No   |
 	+----------------+---------------+-----------+------+
 
-### Get Magento authentication keys {#keys}
-You need Magento authentication keys to install Magento locally for your local environment. These are separate to the authentication keys included in the cloud code repository in `auth.json`.
-
-To create authentication keys through the Magento Marketplace:
-
-1. Log in to the [Magento Marketplace](https://marketplace.magento.com). If you don't have an account, click **Register**.
-2. Click your account name in the top-right of the page and select **My Profile**.
-3. Click **Access Keys** in the Marketplace tab.
-
-	![Click Access Keys]({{ site.baseurl }}common/images/cloud_access-key.png)
-4. Click **Create A New Access Key**. Enter a specific name for the keys, for example CloudProductOwner or the name of the developer receiving the keys.
-5. The keys generate a Public and Private key you can click to copy. Save this information or keep the page open when installing {{site.data.var.ee}}.
 
 ## Set the docroot {#docroot}
-Set the docroot to the `/magento` directory until you complete all setup. If you change the docroot to `/magento/pub` prior to completion, you will encounter issues running the Web Setup Wizard.
+Set the docroot to the `/magento2` directory until you complete all setup. If you change the docroot to `/magento2/pub` prior to completion, you will encounter issues running the Web Setup Wizard.
 
-For the Production environment, you should set the docroot to `/magento/pub`, which helps restrict access to vulnerable areas of the system. The webserver docroot should be set to `/magento/pub` only after Magento is installed (including any upgrades and patches), configured, and static files have been generated and populated in `/magento/pub`. Alternatively, you could also create a subdomain (for example, `install.domain.com`) and configure your webserver's docroot to the Magento installed root folder.
-
-## Get the Magento metapackage {#metapackage}
-
-Prior to installing, you need to get the metapackage.
-
-1. Access your local environment VM or Docker container.
-2. Get the {{site.data.var.ee}} metapackage using the following compose command.
-
-		composer create-project --repository-url=https://repo.magento.com/ magento/project-enterprise-edition <installation directory name>
-
-	When prompted, enter your <a href="{{page.baseurl}}install-gde/prereq/connect-auth.html">authentication keys</a>. Your *public key* is your username; your *private key* is your password.
-
-	This command creates the project and downloads dependencies for it. The project is in a directory named `<installation directory name>` if you provided the parameter or `project-enterprise-edition` if you did not.
+For the Production environment, you should set the docroot to `/magento2/pub`, which helps restrict access to vulnerable areas of the system. The webserver docroot should be set to `/magento2/pub` only after Magento is installed (including any upgrades and patches), configured, and static files have been generated and populated in `/magento2/pub`. Alternatively, you could also create a subdomain (for example, `install.domain.com`) and configure your webserver's docroot to the Magento installed root folder.
 
 ## Set file system permissions and ownership {#file-system-permissions}
 After you have installed Magento, you need to set the file system permissions and ownership.
@@ -108,13 +83,19 @@ You should be ready to install Magento using one of the following options:
 
 The following example installs using the command line method:
 
-1. Switch to the user:
+1. Switch to the user [optional]:
 
     <pre>sudo su - magento</pre>
 2. Change directories for the installation:
 
     <pre>cd /app/bin</pre>
-3. Enter a CLI command with options for entering the name, email, admin credentials, URL, and additional information. For a list of all options, see [Installer help commands]({{ page.baseurl }}install-gde/install/cli/install-cli-install.html#instgde-cli-help-cmds).
+3. Run composer install
+
+    <pre>composer install</pre>
+    
+    For information on how to install Composer, see http://devdocs.magento.com/guides/v2.0/install-gde/prereq/integrator_install_composer.html
+
+4. Enter a CLI command with options for entering the name, email, admin credentials, URL, and additional information. For a list of all options, see [Installer help commands]({{ page.baseurl }}install-gde/install/cli/install-cli-install.html#instgde-cli-help-cmds).
 
     <pre>php magento setup:install \
       --admin-firstname=John \
@@ -135,7 +116,7 @@ The following example installs using the command line method:
 ## Post-install configurations
 After installing Magento, run the commands for [compile]({{ page.baseurl }}config-guide/cli/config-cli-subcommands-compiler.html) and [deploy]({{ page.baseurl }}config-guide/cli/config-cli-subcommands-static-view.html) for the code:
 
-1. If you are not in the correct Magento user, switch:
+1. If you are not in the correct Magento user, switch [optional]:
 
     <pre>sudo su - magento</pre>
 2. Change directory to `app/bin`.
